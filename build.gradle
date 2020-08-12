@@ -1,7 +1,23 @@
-version = '0.0.1-SNAPSHOT'
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
-apply plugin: 'java'
-apply plugin: 'application'
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.3.2.RELEASE")
+        // spring boot gradle plugin will used for generate jar
+    }
+}
+
+plugins {
+    id "java"
+    id "org.springframework.boot" version "2.3.2.RELEASE" apply true
+    id("io.spring.dependency-management") version "1.0.9.RELEASE"
+}
+
+group   = 'org.example'
+version = '0.0.1-SNAPSHOT'
 
 
 ext.junitJupiterVersion     = '5.6.2'
@@ -11,9 +27,6 @@ ext.hamcrestVersion         = '2.2'
 repositories {
     // Use jcenter for resolving dependencies.
     jcenter()
-    maven{
-            url "https://mvnrepository.com/artifact/org.hamcrest/hamcrest"
-    }
 
 }
 
@@ -49,6 +62,9 @@ dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:29.0-jre'
 
+    implementation platform(SpringBootPlugin.BOM_COORDINATES)
+    implementation('org.springframework.boot:spring-boot-starter-web')
+
     // Use JUnit Jupiter API for testing.
     testImplementation(
             "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}",
@@ -59,10 +75,10 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
 }
 
-application {
-    // Define the main class for the application.
-    mainClassName('Main')
-}
+//application {
+//    // Define the main class for the application.
+//    mainClassName('Main')
+//}
 
 
 
